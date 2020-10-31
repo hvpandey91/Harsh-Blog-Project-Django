@@ -1,0 +1,27 @@
+{% extends 'blogapp/base.html' %}
+{% load static %}
+{% block content %}
+<div class="col-sm-12">
+    <h3 class="text-white my-3">Blogs</h3>
+    {% if posts %}
+    {% for posts in posts %}
+    <div class="jumbotron jumbotron-fluid jumbo-color" style="
+    padding-top: 40px;
+    padding-bottom: 40px;
+">
+          <div class="container">
+            <h8>{{posts.post_date}}</h8>
+            <h3 class="display-4 font-weight-bold">{{posts.title}}</h3>
+            <p class="lead">{{posts.desc}}</p>
+          </div>
+        <form action="{% url 'blogpage' posts.id %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-primary mx-3 my-3" value="Go to Blog">
+        </form>
+    </div>
+    {% endfor %}
+    {% else %}
+        <h1>No Blogs Yet, Please login to add Blogs!!!</h1>
+    {% endif %}
+</div>
+{% endblock content %}

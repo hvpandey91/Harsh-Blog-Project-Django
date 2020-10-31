@@ -1,0 +1,32 @@
+{% extends 'blogapp/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    <h2 class="blog-post-title">{{post.title}}</h2>
+    <p class="blog-post-meta">{{post.post_date}} by {{request.user}}</p>
+    <p>{{post.desc}}</p>
+
+<hr>
+<form method="post">
+    {% csrf_token %}
+    {{comment_form.as_p}}
+    <input type="submit" class="btn btn-primary" value="Comment">
+</form>
+<hr>
+<div class="main-comment-section">
+    {{comment.count}} Comment{{ Comments|pluralize }}
+{% for comment in comment %}
+    <blockquote class="blockquote">
+      <p class="mb-0">{{comment.content}}</p>
+      <footer class="blockquote-footer">{{comment.timestamp}},   by <cite title="Source Title">{{comment.user|capfirst}}</cite></footer>
+    </blockquote>
+
+    <a style="color:hsl(0,100%,60%);" href="{% url 'deletecomment' comment.id %}?next={{ request.path }}">Delete</a>
+    <hr>
+
+{% endfor %}
+</div>
+    </div>
+{% endblock content %}
